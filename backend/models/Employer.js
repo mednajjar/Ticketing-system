@@ -6,7 +6,7 @@ const employerSchema = Schema({
     prenom: {type: String, min:3, max: 100, require: true},
     email: {type: String, require: true},
     type: {type: String, ennum: ['employer', 'admin', 'technicien'], default: 'employer'},
-    password: {type: String, require: true},
+    password: {type: String, min:6, require: true},
     id_departement: {type: Schema.Types.ObjectId, ref: 'Departement'},
 })
 

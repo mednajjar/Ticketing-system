@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/mednajjar/Ticketing-system/issues"
   },
-  "homepage": "https://github.com/mednajjar/Ticketing-system#readme"
+  "homepage": "https://github.com/mednajjar/Ticketing-system#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1"
+  }
 }
