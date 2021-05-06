@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema, model} = mongoose;
 
-const employerScheme = Schema({
+const employerSchema = Schema({
     nom: {type: String, min:3, max: 100, require: true},
     prenom: {type: String, min:3, max: 100, require: true},
     email: {type: String, require: true},
@@ -10,4 +10,4 @@ const employerScheme = Schema({
     id_departement: {type: Schema.Types.ObjectId, ref: 'Departement'},
 })
 
-module.exports = model('Employer', employerScheme)
+module.exports = model('Employer', employerSchema)

@@ -3,7 +3,7 @@ const {Schema, model} = mongoose;
 const {date} = require('../config/config')
 
 
-const ticketScheme = Schema({
+const ticketSchema = Schema({
     titre: {type: String, min:3, max: 100, require: true},
     type: {type: String, min:3, max: 100, require: true},
     urgence: {type: String, ennum: ['normal', 'moyenne', 'urgent'], default: 'ticket'},
@@ -13,4 +13,4 @@ const ticketScheme = Schema({
     id_employer: {type: Schema.Types.ObjectId, ref: 'Employer'},
 })
 
-module.exports = model('Ticket', ticketScheme)
+module.exports = model('Ticket', ticketSchema)
