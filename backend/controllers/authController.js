@@ -1,9 +1,31 @@
 const Employer = require('../models/Employer');
-const { loginValidation } = require('../validation/validationForms');
+const { loginValidation, registerValidation } = require('../validation/validationForms');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-exports.login = async (req, res) => {
+
+exports.signup = async (req, res) => {
+    // check validaton
+    const { error } = registerValidation(req.body);
+    if (error) return res.status(400).json({ err: error.details[0].message, ...req.body });
+
+    const { email, password } = req.body;
+    const hashPassword = await bcrypt.hash(password, 12);
+    const ifEmailExist = await Employer.findOne({ email });
+    if (ifEmailExist) return res.status(400).json('email already exist!');
+    const employer = new Employer({
+        ...req.body
+    })
+    employer.password = hashPassword;
+    try {
+        const saved = await employer.save();
+        if (saved) return res.status(201).json(`${employer.type} created succefully`);
+    } catch (error) {
+        return res.status(500).json('Error server!')
+    }
+}
+
+exports.signin = async (req, res) => {
     const { email, password } = req.body;
     // check validaton
     const { error } = loginValidation(req.body);
@@ -11,15 +33,19 @@ exports.login = async (req, res) => {
 
     try {
         // check email user
-        const Email = await Owner.findOne({ email }) || await Client.findOne({ email });
-        if (!Email) return res.status(400).json({ err: 'Invalid email or password' });
+        const checkUser = await Employer.findOne({ email });
+        if (!checkUser) return res.status(400).json({ err: 'Invalid email or password' });
         // compare password user
-        const match = await bcrypt.compare(password, Email.password);
+        const match = await bcrypt.compare(password, checkUser.password);
         if (!match) return res.status(400).json({ err: 'Invalid email or password' });
-        console.log("controller auth", Email.role)
-        const token = jwt.sign({ id: Email._id, role: Email.role }, process.env.TOKEN_SECRET, { expiresIn: process.env.EXPIRATION_IN });
-        return res.status(200).cookie('auth_token', token, { maxAge: process.env.EXPIRATION_IN, httpOnly: true }).json({ role: Email.role, isAuthenticated: true });
+        const token = jwt.sign({ id: checkUser._id, type: checkUser.type }, process.env.TOKEN_SECRET, { expiresIn: process.env.EXPIRATION_IN });
+        return res.status(200).cookie('auth_token', token, { maxAge: process.env.EXPIRATION_IN, httpOnly: true }).json({ type: checkUser.type, isAuthenticated: true });
     } catch (err) {
         res.status(400).json({ error: 'bad request' });
     }
+}
+
+exports.logout = (req, res) => {
+    res.status(200).clearCookie('auth_tokn')
+        .json({ type: null, isAuthenticated: false })
 }

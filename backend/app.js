@@ -6,8 +6,11 @@ const {db} = require('./config/config')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const Fawn = require('fawn');
-const {isAuth} = require('./middlewares/isAuth')
-
+const {isAuth} = require('./middlewares/Auth');
+const fs = require('fs');
+const path = require('path');
+const morgan = require('morgan')
+const authRoute = require('./routes/authRoute');
 /**
  * @params (connection database)
  */
@@ -31,9 +34,25 @@ app.use(cors({
 Fawn.init(mongoose)
 
 /**
+ * @params (create log file)
+ */
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'),
+    {
+      flags: 'a',
+    }
+  );
+
+  /**
+   * @params (keep trace on log file with morgan)
+   */
+app.get('env') === 'devlopement' &&
+    app.use(morgan('combined', { stream: accessLogStream }));
+
+/**
  * @params (all routes)
  */
-
+app.use('/api/', authRoute)
 
 /**
  * @params (check authentication for all routes)

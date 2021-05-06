@@ -1,3 +1,0 @@
-exports.isAuth = (req, res) =>{
-    
-}
