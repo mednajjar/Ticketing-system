@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan')
 const authRoute = require('./routes/authRoute');
+const employerRoute = require('./routes/employerRoute');
 /**
  * @params (connection database)
  */
@@ -53,6 +54,7 @@ app.get('env') === 'devlopement' &&
  * @params (all routes)
  */
 app.use('/api/', authRoute)
+app.use('/api/', employerRoute)
 
 /**
  * @params (check authentication for all routes)

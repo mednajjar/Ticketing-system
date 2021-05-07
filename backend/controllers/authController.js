@@ -2,6 +2,7 @@ const Employer = require('../models/Employer');
 const { loginValidation, registerValidation } = require('../validation/validationForms');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Departement = require('../models/Departement');
 
 
 exports.signup = async (req, res) => {
@@ -9,12 +10,14 @@ exports.signup = async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json({ err: error.details[0].message, ...req.body });
 
-    const { email, password } = req.body;
+    const { email, password, departement } = req.body;
     const hashPassword = await bcrypt.hash(password, 12);
+    const findDepartement = await Departement.findOne({nom: departement})
     const ifEmailExist = await Employer.findOne({ email });
     if (ifEmailExist) return res.status(400).json('email already exist!');
     const employer = new Employer({
-        ...req.body
+        ...req.body,
+        id_departement: findDepartement._id
     })
     employer.password = hashPassword;
     try {

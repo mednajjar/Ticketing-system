@@ -1,23 +1,11 @@
 const jwt = require('jsonwebtoken');
 const Employer = require('../models/Employer')
 
-exports.employer = (req, res, next)=>{
-res.type = 'employer';
-next()
-}
-exports.admin = (req, res, next)=>{
-res.type = 'admin';
-next()
-}
-exports.technicien = (req, res, next)=>{
-res.type = 'technicien';
-next()
-}
-exports.verifToken = (req, res, next) => {
+exports.verifToken = (role) => (req, res, next) => {
     const token = req.cookies.auth_token;
     if (token) {
         jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
-            if (!err && decodedToken.type === res.type) {
+            if (!err && decodedToken.type === role) {
                 res.auth = await Employer.findOne({ _id: decodedToken.id }).select('-password');
                 next();
             } else {
