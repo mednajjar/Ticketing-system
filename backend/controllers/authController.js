@@ -50,5 +50,5 @@ exports.signin = async (req, res) => {
 
 exports.logout = (req, res) => {
     res.status(200).clearCookie('auth_tokn')
-        .json({ type: null, isAuthenticated: false })
+        .json({ type: null, isAuthenticated: false, logout: true })
 }

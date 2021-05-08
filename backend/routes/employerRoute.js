@@ -6,16 +6,20 @@ const {addTicket,
      getEmployedTicket, 
      assign,
     getAssignedTicket,
-    addDepartement} = require('../controllers/employerController');
+    addDepartement,
+    getDepartement,
+    cancelTicket} = require('../controllers/employerController');
 const {verifToken} = require('../middlewares/Auth')
 
 route.post('/addTicket', verifToken('employer'), addTicket);
-route.get('/myticket', verifToken('employer'), getEmployedTicket)
-route.get('/tech', verifToken('admin'), getTechnicien)
-route.get('/ticket', verifToken('admin'), getTicket)
-route.post('/assign/:id', verifToken('admin'), assign)
-route.post('/addDepartement',  verifToken('admin'), addDepartement)
-route.get('/techticket', verifToken('technicien'), getAssignedTicket)
+route.get('/myticket', verifToken('employer'), getEmployedTicket);
+route.get('/tech', verifToken('admin'), getTechnicien);
+route.get('/ticket', verifToken('admin'), getTicket);
+route.post('/assign/:id', verifToken('admin'), assign);
+route.post('/addDepartement', verifToken('admin'), addDepartement);
+route.get('/techticket', verifToken('technicien'), getAssignedTicket);
+route.get('/departements', verifToken('admin'), getDepartement);
+route.post('/cancelTicket/:id', verifToken('technicien'), cancelTicket);
 
 
 module.exports = route;

@@ -13,7 +13,7 @@ const ticketSchema = Schema({
     type: {type: String, min:4, max: 100, require: true},
     urgence: {type: String, ennum: ['normal', 'moyenne', 'urgent'], default: 'normal'},
     description: {type: String, min:10, max: 1024, require: true},
-    etat: {type: String, ennum:['waiting', 'assigned', 'reassiggned', 'resolved'], default: 'waiting'},
+    etat: {type: String, ennum:['waiting', 'assigned', 're-waiting', 're-assigned', 'resolved'], default: 'waiting'},
     date:{type: String, default: dt},
     id_employer: {type: Schema.Types.ObjectId, ref: 'Employer'},
 },

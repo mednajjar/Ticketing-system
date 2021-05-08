@@ -47,7 +47,7 @@ exports.getEmployedTicket = async (req, res) => {
         const ticket = await Ticket.find({ id_employer: res.auth._id });
         if (ticket.length > 0) {
             return res.status(200).json(ticket)
-        }else {
+        } else {
             return res.status(404).json('There is no ticket')
         }
     } catch (error) {
@@ -56,26 +56,87 @@ exports.getEmployedTicket = async (req, res) => {
 }
 
 exports.assign = async (req, res) => {
-    const technicien = await Employer.findOne({ nom_et_prenom: req.body.username })
-    const findTicket = await Assign.findOne({ id_ticket: req.params.id });
-    if ((findTicket.id_ticket = req.params.id) && (findTicket.id_technicien = technicien._id))
-        return res.status(400).json(`ticket already assigned to ${technicien.nom_et_prenom}`)
-    const assign = new Assign({
-        id_ticket: req.params.id,
-        id_technicien: technicien._id
-    })
-    const updateEtat = await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
-    const assigned = await assign.save()
-    if (assigned && updateEtat) return res.status(201).json([{ assign }, { updateEtat }])
+    try {
+        const { nom_et_prenom } = req.body;
+        const technicien = await Employer.findOne({ nom_et_prenom })
+        const findTicket = await Assign.findOne({ id_technicien: technicien._id }).populate('id_ticket');
+        console.log(findTicket)
+        // console.log('id tech',findTicket.id_technicien)
+        // console.log('id ticket',findTicket.id_ticket._id)
+        // console.log('etat',findTicket.id_ticket.etat)
+        // console.log('man ticket',findTicket)
+        // console.log('man ticket',findTicket.id_technicien._id)
+        // console.log('man technicien',technicien._id)
+        if (findTicket === null) {
+            const assign = new Assign({
+                id_ticket: req.params.id,
+                id_technicien: technicien._id
+            })
+            await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
+            const assigned = await assign.save()
+            if (assigned) return res.status(201).json(assign)
+        } else {
+            if (findTicket.id_ticket._id == req.params.id &&
+                findTicket.id_technicien == (technicien._id).toString() &&
+                (findTicket.id_ticket.etat == 'assigned' || findTicket.id_ticket.etat == 're-assigned')) {
+                return res.status(400).json(`ticket already assigned to ${technicien.nom_et_prenom}`)
+            }
+            const assign = new Assign({
+                id_ticket: req.params.id,
+                id_technicien: technicien._id
+            })
+            if (findTicket.id_ticket.etat == 'waiting') {
+                await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
+            } else if (findTicket.id_ticket.etat == 're-waiting') {
+                await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 're-assigned' });
+            }
+            const assigned = await assign.save()
+            if (assigned) return res.status(201).json(assign)
+        }
+    } catch (error) {
+        throw Error(error)
+    }
 
 }
 
-exports.getAssignedTicket = async (req, res) =>{
+exports.cancelTicket = async (req, res) => {
     try {
-        const ticket = await Assign.find({id_technicien: res.auth._id}).populate('id_ticket');
-        if(ticket.length > 0){
-            return res.status(200).json(ticket)   
-        }else {
+        const ticket = await Ticket.findOne({ _id: req.params.id });
+        if (!ticket) return res.status(404).json('Ticket not found');
+        const assign = new Assign({
+            id_ticket: req.params.id,
+            id_technicien: res.auth._id
+        })
+        const updateEtat = await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 're-waiting' });
+        const assigned = await assign.save()
+        if (assigned && updateEtat) return res.status(201).json([{ assign }, { updateEtat }])
+    } catch (error) {
+        throw Error(error)
+    }
+}
+
+exports.resolved = async (req, res)=>{
+    try {
+        const ticket = await Ticket.findOne({ _id: req.params.id });
+        if (!ticket) return res.status(404).json('Ticket not found');
+        const assign = new Assign({
+            id_ticket: req.params.id,
+            id_technicien: res.auth._id
+        })
+        const updateEtat = await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'resolved' });
+        const assigned = await assign.save()
+        if (assigned && updateEtat) return res.status(201).json([{ assign }, { updateEtat }])
+    } catch (error) {
+        throw Error(error)
+    }
+}
+
+exports.getAssignedTicket = async (req, res) => {
+    try {
+        const ticket = await Assign.find({ id_technicien: res.auth._id }).populate('id_ticket');
+        if (ticket.length > 0) {
+            return res.status(200).json(ticket)
+        } else {
             return res.status(404).json('There is no ticket')
         }
     } catch (error) {
@@ -83,29 +144,29 @@ exports.getAssignedTicket = async (req, res) =>{
     }
 }
 
-exports.addDepartement = async (req, res) =>{
+exports.addDepartement = async (req, res) => {
     const { error } = departementValidation(req.body);
     if (error) res.status(400).json(error.details[0].message);
     try {
         const departement = new Departement({
             ...req.body
         })
-        const findDepartement = await Departement.findOne({nom: departement.nom})
-        if(findDepartement){
+        const findDepartement = await Departement.findOne({ nom: departement.nom })
+        if (findDepartement) {
             return res.status(400).json(`Departement already exist!`)
-        }else{
+        } else {
             departement.save();
-            return res.status(201).json(departement);  
-        } 
+            return res.status(201).json(departement);
+        }
     } catch (error) {
         throw Error(error)
     }
 }
 
-exports.getDepartement = async (req, res)=>{
+exports.getDepartement = async (req, res) => {
     try {
         const departement = await Departement.find();
-        if(departement) return res.status(200).json(departement)
+        if (departement) return res.status(200).json(departement)
     } catch (error) {
         throw Error(error)
     }
