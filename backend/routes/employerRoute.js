@@ -8,7 +8,8 @@ const {addTicket,
     getAssignedTicket,
     addDepartement,
     getDepartement,
-    cancelTicket} = require('../controllers/employerController');
+    cancelTicket,
+    resolved} = require('../controllers/employerController');
 const {verifToken} = require('../middlewares/Auth')
 
 route.post('/addTicket', verifToken('employer'), addTicket);
@@ -20,6 +21,7 @@ route.post('/addDepartement', verifToken('admin'), addDepartement);
 route.get('/techticket', verifToken('technicien'), getAssignedTicket);
 route.get('/departements', verifToken('admin'), getDepartement);
 route.post('/cancelTicket/:id', verifToken('technicien'), cancelTicket);
+route.post('/resolved/:id', verifToken('technicien'), resolved)
 
 
 module.exports = route;

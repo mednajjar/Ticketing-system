@@ -176,3 +176,8 @@
 ::1 - - [08/May/2021:13:29:31 +0000] "POST /api/login HTTP/1.1" 200 39 "-" "PostmanRuntime/7.26.8"
 ::1 - - [08/May/2021:13:29:37 +0000] "POST /api/assign/609548c9719e9b69b41cf301 HTTP/1.1" 201 222 "-" "PostmanRuntime/7.26.8"
 ::1 - - [08/May/2021:13:29:44 +0000] "POST /api/assign/609548c9719e9b69b41cf301 HTTP/1.1" 400 40 "-" "PostmanRuntime/7.26.8"
+::1 - - [08/May/2021:17:20:23 +0000] "POST /api/logout HTTP/1.1" 200 51 "-" "PostmanRuntime/7.26.8"
+::1 - - [08/May/2021:17:20:38 +0000] "POST /api/login HTTP/1.1" 200 44 "-" "PostmanRuntime/7.26.8"
+::1 - - [08/May/2021:17:21:44 +0000] "POST /api/resolved/60942457a3a81c6710582160 HTTP/1.1" - - "-" "PostmanRuntime/7.26.8"
+::1 - - [08/May/2021:17:22:05 +0000] "POST /api/resolved/60942457a3a81c6710582160 HTTP/1.1" 404 18 "-" "PostmanRuntime/7.26.8"
+::1 - - [08/May/2021:17:22:27 +0000] "POST /api/resolved/609548c9719e9b69b41cf301 HTTP/1.1" 201 594 "-" "PostmanRuntime/7.26.8"
