@@ -20,5 +20,22 @@ exports.verifToken = (role) => (req, res, next) => {
 
 
 exports.isAuth = (req, res) => {
+    const token = req.cookies['auth_token'];
+    if (token) {
+        // console.log(token)
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) => {
+            if (err) {
+                console.log('error')
+                return res.clearCookie('auth_token').json({ type: null, isAuthenticated: false });
+            } else {
+                return res
+                    .status(200)
+                    .json({ type: decodedToken.type, isAuthenticated: true });
+            }
+        });
 
+    } else {
+        console.log('notToken')
+        return res.json({ role: null, isAuthenticated: false });
+    }
 }
