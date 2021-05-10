@@ -33,7 +33,7 @@ const Navbar = () => {
                             type === 'employer' && (
                                 <>
                                     <li className="nav-item">
-                                        <Link to="/myTickets " className="nav-link active text-white" aria-current="page" >My tickets</Link>
+                                        <Link to="/myTickets" className="nav-link active text-white" aria-current="page" >My tickets</Link>
                                     </li>                        
                                     <li className="nav-item">
                                         <Link to="/addTicket" className="nav-link active text-white" aria-current="page" >Create Ticket</Link> 

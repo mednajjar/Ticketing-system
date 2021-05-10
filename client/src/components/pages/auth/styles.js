@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
 
     },
     paper: {
-      margin: theme.spacing(16, 4),
+      margin: theme.spacing(8, 4),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -38,7 +38,7 @@ export default makeStyles((theme) => ({
     },
     formControl:{
       width:'100%',
-      padding: '2%'
+      margin: '1%'
     },
     list:{
       paddingLeft: '2%'
