@@ -63,6 +63,13 @@ export function requestGetTicketById(action) {
   });
 }
 
+export function requestGetTechTicketById(action) {
+  return axios.request({
+    method: 'get',
+    url: `${URL}/techticket/${action.payload}`,
+  });
+}
+
 
 
 

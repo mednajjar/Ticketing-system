@@ -10,7 +10,8 @@ import AllTickets from './components/pages/admin/AllTickets';
 import Dashboard from './components/pages/admin/Dashboard';
 import Employers from './components/pages/admin/Employers';
 import MyTickets from './components/pages/employer/MyTickets';
-import Assign from './components/pages/admin/Assign'
+import Assign from './components/pages/admin/Assign';
+import Ticket from './components/pages/technicien/Tickets';
 
 
 
@@ -25,7 +26,8 @@ const Routes = () => {
  
         <Switch>
             <AuthRoute path="/" exact type={type} auth={isAuthenticated} component={Login} />
-            <TechRoute path="/home" type={type} auth={isAuthenticated} component={Home} />
+            <TechRoute path="/home" exact type={type} auth={isAuthenticated} component={Home} />
+            <TechRoute path="/home/:id" type={type} auth={isAuthenticated} component={Ticket} />
             <AdminRoute path="/dashboard" type={type} auth={isAuthenticated} component={Dashboard} />
             <AdminRoute path="/register" type={type} auth={isAuthenticated} component={Register} />
             <AdminRoute path="/employers" type={type} auth={isAuthenticated} component={Employers} />

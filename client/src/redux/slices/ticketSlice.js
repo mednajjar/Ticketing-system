@@ -41,10 +41,11 @@ const ticketSlice = createSlice({
         ...state,
         assignTicket: action.payload,
     }
-},
+  },
+  getTechTicketById: ()=>{},  
 
   },
 });
 
-export const { setAssignTicket,getTicketById,assignTech,getTechnicien,setTechnicien,setTicket, techTicket, setMyTicket, getTicket, getMyTicket, addTicket, resolvedTicket} = ticketSlice.actions;
+export const { getTechTicketById,setAssignTicket,getTicketById,assignTech,getTechnicien,setTechnicien,setTicket, techTicket, setMyTicket, getTicket, getMyTicket, addTicket, resolvedTicket} = ticketSlice.actions;
 export default ticketSlice.reducer;

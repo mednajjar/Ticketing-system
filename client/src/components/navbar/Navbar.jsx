@@ -45,7 +45,7 @@ const Navbar = () => {
                             (type === 'technicien') ? (
                             
                                     <li className="nav-item">
-                                        <Link to="/home " className="nav-link active text-white" aria-current="page" >Home</Link>
+                                        <Link to="/home" className="nav-link active text-white" aria-current="page" >Home</Link>
                                     </li>                           
                                 
                             )

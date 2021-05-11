@@ -1,13 +1,23 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import {techTicket} from '../../../redux/slices/ticketSlice'
+import {techTicket} from '../../../redux/slices/ticketSlice';
+import { useHistory } from 'react-router-dom';
+
 const Home = () => {
     const dispatch = useDispatch()
     const {myTicket} = useSelector((state)=>state.allTickets)
     console.log('test',myTicket)
+    const history = useHistory();
+
     useEffect(()=>{
         dispatch(techTicket())
     }, [dispatch])
+
+
+    const getId = (id)=>(e)=>{
+        e.preventDefault()
+        history.push(`/home/${id}`)
+    }
     return (
         <div className="container mt-5">
             <h1 className="text-center">Assigned Tickets</h1>
@@ -27,13 +37,15 @@ const Home = () => {
                             <div className="d-flex justify-content-between card-footer bg-transparent border-success">
                         {
                             res.id_ticket.etat === 'waiting' || res.id_ticket.etat === 're-waiting' ? (
-                                <>  
-                                <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Resolver
+                                <> 
+                               
+                                <button className="btn btn-secondary" type="submit" onClick={getId(res.id_ticket._id)}>
+                                    Show
                                 </button> 
-                                <button className="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                
+                                {/* <button className="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Cancel
-                                </button> 
+                                </button>  */}
                                 </>
 
                             ) :  <p>No action</p>
