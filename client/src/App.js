@@ -12,12 +12,10 @@ function App() {
   }, [dispatch])
 
   return (
-    <>
       <Router>
-      <Navbar />
-      <Routes />
+        <Navbar />
+        <Routes />
       </Router>
-    </>
   );
 }
 

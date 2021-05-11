@@ -2,25 +2,24 @@ import React from 'react'
 import { Avatar, Button, Grid, Typography, Container, TextField } from '@material-ui/core';
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import useStyles from '../auth/styles';
-// import {useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import Input from '../auth/Input';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
-import {} from '../../../redux/slices/authSlice';
-// import { useHistory } from 'react-router-dom';
+import {addTicket} from '../../../redux/slices/ticketSlice';
+import { useHistory } from 'react-router-dom';
 
 const CreateTicket = () => {
-//     const history = useHistory()
-//   const dispatch = useDispatch()
+    const history = useHistory()
+  const dispatch = useDispatch()
   const [formData, setFormData] = React.useState({ titre:'', type: '', urgence:'',description:''})
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
   const onsubmit = async (e) => {
     e.preventDefault();
-    // dispatch()
-    console.log(formData)
-    // history.push('/myTickets')
+    dispatch(addTicket(formData))
+    history.push('/myTickets')
   }
   const classes = useStyles();
     return (
@@ -35,7 +34,7 @@ const CreateTicket = () => {
               <AssignmentIcon />
             </Avatar>
             <Typography component="h1" variant="h5">New ticket</Typography>
-            <form className={classes.form} onSubmit={onsubmit}>
+            <form className={classes.form}>
               <Grid container spacing={2}>
                 <Input name="titre" label="Titre" handleChange={handleChange} type="text" />
                 <Input name="type" label="Type" handleChange={handleChange} type="text" />
@@ -66,7 +65,7 @@ const CreateTicket = () => {
                     />
 
               </Grid>
-              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={onsubmit}>
                 Envoyer
             </Button>
             </form>

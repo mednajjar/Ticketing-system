@@ -1,65 +1,64 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {getTicket} from '../../../redux/slices/ticketSlice'
-import Assign from './Assign';
+// import Assign from './Assign';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+// import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import useStyles from './styles';
 
 const AllTickets = () => {
+    const history = useHistory()
+    const push = (id)=>(e) =>{
+        e.preventDefault()
+        history.push(`/ticket/${id}`)
+    }
     const {ticket} = useSelector((state)=>state.allTickets)
     console.log(ticket)
     const dispatch = useDispatch();
-    // const history = useHistory();
+   
 
     useEffect(()=>{
         dispatch(getTicket())
     }, [dispatch])
+    const classes = useStyles();
     return (
-        <div className="container mt-5">
-            <h1 className="text-center">all tickets</h1>
-            <div className="d-md-inline-flex mt-5">
+        <>
+        <h1 className="text-center mt-5">all tickets</h1>
+        
+            <div className={classes.cartes}>
             {
-                ticket && ticket.map((res)=>(
-                    <>
-                <div className="card border-success mb-3 w-auto  m-3" key={res._id}>
-                <div className="card-header bg-transparent border-success d-flex justify-content-between">
-                   <div>{res.etat}</div> 
-                    <div>{res.date}</div>
-                    </div>
-                <div className="card-body text-success">
-                    <h5 className="card-title">{res.titre}</h5>
-                    <p className="card-text">{res.description}</p>
-                    
-                </div>
-                <div className="card-footer bg-transparent border-success">
-                    {
-                        res.etat === 'waiting' ? (
-                            <>
-                            <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                assign
-                            </button>
-                            <Assign id={res._id} />
-                            </>
-
-                        ) : res.etat === 're-waiting' ? (
-                            <>
-                            <button className="btn btn-primary">
-                                re-assign
-                            </button>
-                            <Assign id={res._id} />
-                            </>
-                        ) : <p>No action</p>
-                    }
-                </div>
-                </div>
-                    </>
+                ticket && ticket.map((res, i)=>(
+            <Card className={classes.root} key={i}>
+                <CardActionArea>
+                    <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {res.titre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {res.description}
+                    </Typography>
+                    </CardContent>
+                    <CardContent>
+                    {res.etat}
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary" onClick={push(res._id)}>
+                        More
+                    </Button>
+                </CardActions>
+            </Card>
                 ))
             }
-            </div>
-            
-            
-            
             
         </div>
+        </>
     )
 }
 

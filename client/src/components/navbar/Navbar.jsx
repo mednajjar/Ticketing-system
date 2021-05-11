@@ -17,7 +17,7 @@ const Navbar = () => {
     return (
      <>
      {
-         type && (
+         isAuthenticated && (
         <nav className="navbar navbar-expand-lg navbar-light bg-primary text-white">
             <div className="container">
            
@@ -30,7 +30,7 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav col-6">
                         {
-                            type === 'employer' && (
+                            (type === 'employer') ? (
                                 <>
                                     <li className="nav-item">
                                         <Link to="/myTickets" className="nav-link active text-white" aria-current="page" >My tickets</Link>
@@ -41,17 +41,16 @@ const Navbar = () => {
                                    
                                 </>
                             )
-                        }
-                        {
-                            type === 'technicien' && (
+                        :
+                            (type === 'technicien') ? (
                             
                                     <li className="nav-item">
                                         <Link to="/home " className="nav-link active text-white" aria-current="page" >Home</Link>
                                     </li>                           
                                 
                             )
-                        }
-                        {   type === 'admin' && (
+                        :
+                            (
                                 <>
                                 <li className="nav-item">
                                     <Link to="/dashboard" className="nav-link active text-white" aria-current="page" >Dashboard</Link>
@@ -62,6 +61,8 @@ const Navbar = () => {
                                 <li className="nav-item">
                                     <Link to="/tickets" className="nav-link active text-white" aria-current="page" >Tickets</Link> 
                                 </li>
+                                
+                               
                             </> 
                             )
                         }

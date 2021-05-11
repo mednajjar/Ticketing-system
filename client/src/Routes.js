@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+// import {useLocation} from 'react-router';
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import Login from './components/pages/auth/Login';
@@ -9,10 +10,13 @@ import AllTickets from './components/pages/admin/AllTickets';
 import Dashboard from './components/pages/admin/Dashboard';
 import Employers from './components/pages/admin/Employers';
 import MyTickets from './components/pages/employer/MyTickets';
+import Assign from './components/pages/admin/Assign'
 
 
 
 const Routes = () => {
+    
+    
     const { isAuthenticated, type } = useSelector(state => state.authentification)
     console.log({ isAuthenticated, type })
     // console.log({ role, isAuthenticated })
@@ -21,12 +25,13 @@ const Routes = () => {
  
         <Switch>
             <AuthRoute path="/" exact type={type} auth={isAuthenticated} component={Login} />
-            <AdminRoute path="/dashboard" exact type={type} auth={isAuthenticated} component={Dashboard} />
+            <TechRoute path="/home" type={type} auth={isAuthenticated} component={Home} />
+            <AdminRoute path="/dashboard" type={type} auth={isAuthenticated} component={Dashboard} />
             <AdminRoute path="/register" type={type} auth={isAuthenticated} component={Register} />
-            <AdminRoute path="/tickets" type={type} auth={isAuthenticated} component={AllTickets} />
             <AdminRoute path="/employers" type={type} auth={isAuthenticated} component={Employers} />
-            <TechRoute path="/home" exact type={type} auth={isAuthenticated} component={Home} />
-            <EmployerRoute path="/myTickets" exact type={type} auth={isAuthenticated} component={MyTickets} />
+            <AdminRoute path="/tickets" type={type} auth={isAuthenticated} component={AllTickets} />
+            <AdminRoute path="/ticket/:id" type={type} auth={isAuthenticated} component={Assign} />
+            <EmployerRoute path="/myTickets"  type={type} auth={isAuthenticated} component={MyTickets} />
             <EmployerRoute path='/addTicket' type={type} auth={isAuthenticated} component={CreateTicket} />
         </Switch>
      
@@ -36,18 +41,19 @@ const Routes = () => {
 
 
 const AdminRoute = ({ path, component: Component, type, auth, ...rest }) => {
+ 
     return (
         (
             <Route
                 {...rest}
-                render={() => (auth && type === 'admin' ? <Component /> : <Redirect to="/" />)}
+                render={(props) => (auth && type === 'admin' ? <Component /> : <Redirect to="/" />)}
             />
         )
     )
 }
 
 const EmployerRoute = ({ path, component: Component, type, auth, ...rest }) => {
-    // console.log(auth, role, Component)
+
     return (
         (
             <Route
@@ -59,7 +65,7 @@ const EmployerRoute = ({ path, component: Component, type, auth, ...rest }) => {
 }
 
 const TechRoute = ({ path, component: Component, type, auth, ...rest }) => {
-    // console.log(auth, role, Component)
+
     return (
         (
             <Route
@@ -71,19 +77,22 @@ const TechRoute = ({ path, component: Component, type, auth, ...rest }) => {
 }
 
 
-const AuthRoute = ({ path, component: Component, type, auth, ...rest }) => (
-    <Route
-        {...rest}
-        render={() => (!auth
-            ? (<Component />)
-            : (type === 'employer') 
-            ? (<Redirect to="/myTickets" />)
-            : (type === 'admin')
-            ? (<Redirect to="/dashboard" />)
-            : (type === 'technicien')
-            ? (<Redirect to="/home" />) : null)}
-    />
-)
+const AuthRoute = ({ path, component: Component, type, auth, ...rest }) => {
+
+    return(
+        
+            <Route
+                {...rest}
+                render={() => (!auth ? <Component />
+                    : (type === 'employer')
+                    ? (<Redirect to="/myTickets" />)
+                    : (type === 'admin')
+                    ? (<Redirect to="/dashboard" />)
+                    : (<Redirect to="/home" />)
+                    )}
+            />
+    )
+}
 
 
 

@@ -42,6 +42,15 @@ exports.getTicket = async (req, res) => {
     }
 }
 
+exports.getTicketById = async (req, res) => {
+    try {
+        const ticket = await Ticket.findById(req.params.id);
+        if (ticket) return res.status(200).json(ticket)
+    } catch (error) {
+        throw Error(error)
+    }
+}
+
 exports.getEmployedTicket = async (req, res) => {
     try {
         const ticket = await Ticket.find({ id_employer: res.auth._id });
@@ -58,15 +67,11 @@ exports.getEmployedTicket = async (req, res) => {
 exports.assign = async (req, res) => {
     try {
         const { nom_et_prenom } = req.body;
+        console.log('req body', req.body)
         const technicien = await Employer.findOne({ nom_et_prenom })
         const findTicket = await Assign.findOne({ id_technicien: technicien._id }).populate('id_ticket');
-        console.log(findTicket)
-        // console.log('id tech',findTicket.id_technicien)
-        // console.log('id ticket',findTicket.id_ticket._id)
-        // console.log('etat',findTicket.id_ticket.etat)
-        // console.log('man ticket',findTicket)
-        // console.log('man ticket',findTicket.id_technicien._id)
-        // console.log('man technicien',technicien._id)
+
+
         if (findTicket === null) {
             const assign = new Assign({
                 id_ticket: req.params.id,
@@ -115,7 +120,7 @@ exports.cancelTicket = async (req, res) => {
     }
 }
 
-exports.resolved = async (req, res)=>{
+exports.resolved = async (req, res) => {
     try {
         const ticket = await Ticket.findOne({ _id: req.params.id });
         if (!ticket) return res.status(404).json('Ticket not found');

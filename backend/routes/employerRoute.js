@@ -9,13 +9,15 @@ const {addTicket,
     addDepartement,
     getDepartement,
     cancelTicket,
-    resolved} = require('../controllers/employerController');
+    resolved,
+    getTicketById} = require('../controllers/employerController');
 const {verifToken} = require('../middlewares/Auth')
 
 route.post('/addTicket', verifToken('employer'), addTicket);
 route.get('/myticket', verifToken('employer'), getEmployedTicket);
 route.get('/tech', verifToken('admin'), getTechnicien);
 route.get('/ticket', verifToken('admin'), getTicket);
+route.get('/ticket/:id', verifToken('admin'), getTicketById);
 route.post('/assign/:id', verifToken('admin'), assign);
 route.post('/addDepartement', verifToken('admin'), addDepartement);
 route.get('/techticket', verifToken('technicien'), getAssignedTicket);
