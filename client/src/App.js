@@ -5,6 +5,7 @@ import Routes from './Routes';
 import { useDispatch } from 'react-redux'
 import { ifLoged } from './redux/slices/authSlice'
 import { BrowserRouter as Router } from 'react-router-dom'
+import history from './History'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -12,7 +13,7 @@ function App() {
   }, [dispatch])
 
   return (
-      <Router>
+      <Router history={history}>
         <Navbar />
         <Routes />
       </Router>

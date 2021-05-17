@@ -68,7 +68,7 @@ const Register = () => {
                     <option className={classes.list} value="">Departement</option>
                     {
                       departement && departement.map((res)=>(
-                        <option className={classes.list} value={res.nom}>{res.nom}</option>
+                        <option className={classes.list} value={res.nom} key={res._id}>{res.nom}</option>
                       )
                       )
                     }

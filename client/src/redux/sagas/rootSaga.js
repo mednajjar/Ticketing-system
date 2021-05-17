@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
 import { getLogin, ifLoged, getLogout, getRegister, getDepartement } from '../slices/authSlice';
-import { getTechTicketById,getTicketById,assignTech,getTechnicien,getTicket, getMyTicket, addTicket, techTicket, resolvedTicket } from '../slices/ticketSlice';
-import { handelTechTicketById,handelGetTicketById,handelAssignTechnicien,handelGetTechnicien,handelGetTicket, handelGetMyTicket, handelAddTicket, handelTechTicket, handelResolvedTicket} from './handlers/ticket.handler';
+import { cancelTicket,getTechTicketById,getTicketById,assignTech,getTechnicien,getTicket, getMyTicket, addTicket, techTicket, resolvedTicket } from '../slices/ticketSlice';
+import { handelCancelTicket,handelTechTicketById,handelGetTicketById,handelAssignTechnicien,handelGetTechnicien,handelGetTicket, handelGetMyTicket, handelAddTicket, handelTechTicket, handelResolvedTicket} from './handlers/ticket.handler';
 import { handelGetLogin, handelIfLoged, handelGetLogout, handelGetRegister, handelDepartement } from './handlers/auth.handler';
 
 
@@ -20,5 +20,6 @@ export function* watcherSaga() {
   yield takeLatest(assignTech.type, handelAssignTechnicien);
   yield takeLatest(getTicketById.type, handelGetTicketById);
   yield takeLatest(getTechTicketById.type, handelTechTicketById);
+  yield takeLatest(cancelTicket.type, handelCancelTicket);
 
 }

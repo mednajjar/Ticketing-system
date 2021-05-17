@@ -33,7 +33,7 @@ const AllTickets = () => {
         
             <div className={classes.cartes}>
             {
-                ticket && ticket.map((res, i)=>(
+                (ticket.length > 0) ? ticket.map((res, i)=>(
             <Card className={classes.root} key={i}>
                 <CardActionArea>
                     <CardContent>
@@ -54,7 +54,7 @@ const AllTickets = () => {
                     </Button>
                 </CardActions>
             </Card>
-                ))
+                )) : <p className="text-center mt-5 text-danger" >There is no ticket yet</p>
             }
             
         </div>

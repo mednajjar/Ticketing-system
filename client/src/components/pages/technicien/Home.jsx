@@ -23,37 +23,37 @@ const Home = () => {
             <h1 className="text-center">Assigned Tickets</h1>
             <div className="flex-lg-row">
             {
-                (myTicket.length > 0) && myTicket.map((res, index)=>(
-                    <>
-                        <div className="card border-success m-3" key={index}>
-                            <div className="card-header bg-transparent border-success d-flex justify-content-between">
-                                <div>{res.id_ticket.etat}</div> 
-                                <div>{res.id_ticket.date}</div>
+                (myTicket.length !== 0) ? myTicket.map((res, index)=> (
+                
+                    res.id_ticket.etat !== null && (res.id_ticket.etat === 'assigned' || res.id_ticket.etat === 're-assigned' || res.id_ticket.etat === 'resolved') && (
+                        <>
+                            <div className="card border-success m-3" key={index}>
+                                <div className="card-header bg-transparent border-success d-flex justify-content-between">
+                                    <div>{res.id_ticket.etat}</div> 
+                                    <div>{res.id_ticket.date}</div>
+                                </div>
+                                <div className="card-body text-success">
+                                    <h5 className="card-title">{res.id_ticket.titre}</h5>
+                                    <p className="card-text">{res.id_ticket.description}</p> 
+                                </div>
+                                <div className="d-flex justify-content-between card-footer bg-transparent border-success">
+                            {
+                                (res.id_ticket.etat === 'assigned' || res.id_ticket.etat === 're-assigned') ? (
+                                   
+                                    <button className="btn btn-secondary" type="submit" onClick={getId(res.id_ticket._id)}>
+                                        Show
+                                    </button> 
+                                  
+                                ) :  <p>No action</p>
+                            }
+                                </div>
                             </div>
-                            <div className="card-body text-success">
-                                <h5 className="card-title">{res.id_ticket.titre}</h5>
-                                <p className="card-text">{res.id_ticket.description}</p> 
-                            </div>
-                            <div className="d-flex justify-content-between card-footer bg-transparent border-success">
-                        {
-                            res.id_ticket.etat === 'waiting' || res.id_ticket.etat === 're-waiting' ? (
-                                <> 
-                               
-                                <button className="btn btn-secondary" type="submit" onClick={getId(res.id_ticket._id)}>
-                                    Show
-                                </button> 
-                                
-                                {/* <button className="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Cancel
-                                </button>  */}
-                                </>
+                        </>
 
-                            ) :  <p>No action</p>
-                        }
-                </div>
-                        </div>
-                    </>
-                ))
+                    )
+                
+                   
+                )) : <p className="text-center mt-5 text-danger" >There is no ticket yet</p>
             }
             </div>
         </div>

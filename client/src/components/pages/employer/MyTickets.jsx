@@ -15,7 +15,7 @@ const MyTickets = () => {
             <h1 className="text-center">All my tickets</h1>
             <div className="flex-lg-row">
             {
-                (myTicket.length > 0) && myTicket.map((res, index)=>(
+                (myTicket.length > 0) ? myTicket.map((res, index)=>(
                     <>
                         <div className="card border-success m-3" key={index}>
                             <div className="card-header bg-transparent border-success d-flex justify-content-between">
@@ -28,7 +28,7 @@ const MyTickets = () => {
                             </div>
                         </div>
                     </>
-                ))
+                )) : <p className="text-center mt-5 text-danger" >You haven't any ticket yet</p>
             }
             </div>
             

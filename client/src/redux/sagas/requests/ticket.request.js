@@ -51,8 +51,6 @@ export function requestGetTechnicien(action) {
 
 export function requestAssignTechnicien(action) {
   const {id, formData}= action.payload;
-  console.log('my id', id);
-  console.log('my data', formData)
   return axios.post(`${URL}/assign/${id}`, formData)
 }
 
@@ -69,6 +67,14 @@ export function requestGetTechTicketById(action) {
     url: `${URL}/techticket/${action.payload}`,
   });
 }
+
+export function requestCancelTicket(action) {
+  return axios.request({
+    method: 'post',
+    url: `${URL}/cancelTicket/${action.payload}`,
+  });
+}
+
 
 
 

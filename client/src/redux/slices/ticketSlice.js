@@ -43,9 +43,10 @@ const ticketSlice = createSlice({
     }
   },
   getTechTicketById: ()=>{},  
+  cancelTicket:()=>{},
 
   },
 });
 
-export const { getTechTicketById,setAssignTicket,getTicketById,assignTech,getTechnicien,setTechnicien,setTicket, techTicket, setMyTicket, getTicket, getMyTicket, addTicket, resolvedTicket} = ticketSlice.actions;
+export const { cancelTicket ,getTechTicketById,setAssignTicket,getTicketById,assignTech,getTechnicien,setTechnicien,setTicket, techTicket, setMyTicket, getTicket, getMyTicket, addTicket, resolvedTicket} = ticketSlice.actions;
 export default ticketSlice.reducer;

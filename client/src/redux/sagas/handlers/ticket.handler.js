@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { call, put } from 'redux-saga/effects';
-import {requestGetTechTicketById,requestGetTicketById,requestAssignTechnicien,requestGetTechnicien,requestTicket, requestMyTicket, requestAddTicket, requestTechTicket, requestResolvedTicket } from '../requests/ticket.request';
+import {requestCancelTicket,requestGetTechTicketById,requestGetTicketById,requestAssignTechnicien,requestGetTechnicien,requestTicket, requestMyTicket, requestAddTicket, requestTechTicket, requestResolvedTicket } from '../requests/ticket.request';
 import { setAssignTicket,setTechnicien,setTicket, setMyTicket} from '../../slices/ticketSlice';
 
 export function* handelGetTicket(action) {
@@ -105,6 +105,19 @@ export function* handelGetTicketById(action) {
     const { data } = yield call(requestGetTicketById, action);
     if (data) {
       yield put(setAssignTicket(data));
+    }
+  } catch (error) {
+    if (error.response) {
+        console.log(error.response);
+      }  }
+}
+
+export function* handelCancelTicket(action) {
+  try {
+    const { data } = yield call(requestCancelTicket, action);
+    if (data) {
+      console.log('data', data)
+      yield put(setTicket(data));
     }
   } catch (error) {
     if (error.response) {

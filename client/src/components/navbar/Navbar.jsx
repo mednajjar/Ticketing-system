@@ -29,44 +29,28 @@ const Navbar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav col-6">
-                        {
-                            (type === 'employer') ? (
-                                <>
-                                    <li className="nav-item">
-                                        <Link to="/myTickets" className="nav-link active text-white" aria-current="page" >My tickets</Link>
-                                    </li>                        
-                                    <li className="nav-item">
-                                        <Link to="/addTicket" className="nav-link active text-white" aria-current="page" >Create Ticket</Link> 
-                                    </li>
+                     
+                        <li className="nav-item" style={display(type, 'employer')}>
+                            <Link to="/myTickets" className="nav-link active text-white" aria-current="page" >My tickets</Link>
+                        </li>                        
+                        <li className="nav-item" style={display(type, 'employer')}>
+                            <Link to="/addTicket" className="nav-link active text-white" aria-current="page" >Create Ticket</Link> 
+                        </li>
                                    
-                                </>
-                            )
-                        :
-                            (type === 'technicien') ? (
-                            
-                                    <li className="nav-item">
-                                        <Link to="/home" className="nav-link active text-white" aria-current="page" >Home</Link>
-                                    </li>                           
-                                
-                            )
-                        :
-                            (
-                                <>
-                                <li className="nav-item">
-                                    <Link to="/dashboard" className="nav-link active text-white" aria-current="page" >Dashboard</Link>
-                                </li>                        
-                                <li className="nav-item">
-                                    <Link to="/register" className="nav-link active text-white" aria-current="page" >Register</Link> 
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/tickets" className="nav-link active text-white" aria-current="page" >Tickets</Link> 
-                                </li>
-                                
-                               
-                            </> 
-                            )
-                        }
-                        
+                        <li className="nav-item" style={display(type, 'technicien')}>
+                            <Link to="/home" className="nav-link active text-white" aria-current="page" >Home</Link>
+                        </li>                           
+
+                        <li className="nav-item" style={display(type, 'admin')}>
+                            <Link to="/dashboard" className="nav-link active text-white" aria-current="page" >Dashboard</Link>
+                        </li>                        
+                        <li className="nav-item" style={display(type, 'admin')}>
+                            <Link to="/register" className="nav-link active text-white" aria-current="page" >Register</Link> 
+                        </li>
+                        <li className="nav-item" style={display(type, 'admin')}>
+                            <Link to="/tickets" className="nav-link active text-white" aria-current="page" >Tickets</Link> 
+                        </li>
+
                     </ul>
                     <ul className="navbar-nav col-6 justify-content-end ">
                         <li className="nav-item">
@@ -91,4 +75,10 @@ const Navbar = () => {
     )
 }
 
+
+function display(type, user){
+    return({
+        display: type === user.toString() ? "block" : "none"
+    })
+}
 export default Navbar

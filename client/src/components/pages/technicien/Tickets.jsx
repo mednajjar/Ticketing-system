@@ -1,17 +1,29 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getTechTicketById } from '../../../redux/slices/ticketSlice';
+import { useParams, useHistory } from 'react-router-dom';
+import { resolvedTicket,getTechTicketById, cancelTicket } from '../../../redux/slices/ticketSlice';
 
 const Tickets = () => {
     const { id } = useParams();
     const { assignTicket } = useSelector((state) => state.allTickets);
     console.log('ticket', assignTicket)
     const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         dispatch(getTechTicketById(id));
     }, [dispatch, id])
 
+    const cancelSelectedTicket = (e) =>{
+        e.preventDefault()
+        dispatch(cancelTicket(id))
+        history.push('/home')
+    }
+
+    const resolvedticket = (e) =>{
+        e.preventDefault();
+        dispatch(resolvedTicket(id))
+        history.push('/home')
+    }
     return (
         <div className="container mt-5">
             <h1 className="text-center">Ticket details</h1>
@@ -33,10 +45,10 @@ const Tickets = () => {
                                         <p className="card-text">{assignTicket.description}</p>
                                     </div>
                                     <div className="d-flex justify-content-between card-footer bg-transparent border-success">
-                                        <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <button className="btn btn-secondary" type="submit" onClick={resolvedticket}>
                                             Resolver
                                         </button>
-                                        <button className="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <button className="btn btn-warning " type="submit" onClick={cancelSelectedTicket}>
                                             Cancel
                                         </button>
                                     </div>

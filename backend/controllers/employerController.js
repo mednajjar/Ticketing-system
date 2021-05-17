@@ -69,17 +69,17 @@ exports.assign = async (req, res) => {
         const { nom_et_prenom } = req.body;
         console.log('req body', req.body)
         const technicien = await Employer.findOne({ nom_et_prenom })
-        const findTicket = await Assign.findOne({ id_technicien: technicien._id }).populate('id_ticket');
-
+        const findTicket = await Assign.findOne({ id_ticket: req.params.id }).populate('id_ticket');
+        console.log('find ticket', findTicket)
 
         if (findTicket === null) {
             const assign = new Assign({
                 id_ticket: req.params.id,
                 id_technicien: technicien._id
             })
-            await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
+            const updated = await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
             const assigned = await assign.save()
-            if (assigned) return res.status(201).json(assign)
+            if (assigned && updated) return res.status(201).json(assign)
         } else {
             if (findTicket.id_ticket._id == req.params.id &&
                 findTicket.id_technicien == (technicien._id).toString() &&
@@ -92,7 +92,9 @@ exports.assign = async (req, res) => {
             })
             if (findTicket.id_ticket.etat == 'waiting') {
                 await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 'assigned' });
-            } else if (findTicket.id_ticket.etat == 're-waiting') {
+
+            }
+            if (findTicket.id_ticket.etat == 're-waiting') {
                 await Ticket.findByIdAndUpdate({ _id: req.params.id }, { etat: 're-assigned' });
             }
             const assigned = await assign.save()
@@ -138,7 +140,7 @@ exports.resolved = async (req, res) => {
 
 exports.getAssignedTicket = async (req, res) => {
     try {
-        const ticket = await Assign.find({ id_technicien: res.auth._id }).populate('id_ticket');
+        const ticket = await Assign.find({ id_technicien: res.auth._id }).populate('id_ticket').select('').limit(1);
         if (ticket.length > 0) {
             return res.status(200).json(ticket)
         } else {
