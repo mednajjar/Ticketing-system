@@ -140,7 +140,7 @@ exports.resolved = async (req, res) => {
 
 exports.getAssignedTicket = async (req, res) => {
     try {
-        const ticket = await Assign.find({ id_technicien: res.auth._id }).populate('id_ticket').select('').limit(1);
+        const ticket = await Assign.find({ id_technicien: res.auth._id }).populate('id_ticket');
         if (ticket.length > 0) {
             return res.status(200).json(ticket)
         } else {

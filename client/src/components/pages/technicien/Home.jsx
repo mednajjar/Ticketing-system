@@ -3,14 +3,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {techTicket} from '../../../redux/slices/ticketSlice';
 import { useHistory } from 'react-router-dom';
 
+
+
 const Home = () => {
     const dispatch = useDispatch()
     const {myTicket} = useSelector((state)=>state.allTickets)
-    console.log('test',myTicket)
+
     const history = useHistory();
 
     useEffect(()=>{
         dispatch(techTicket())
+       
     }, [dispatch])
 
 
@@ -23,9 +26,9 @@ const Home = () => {
             <h1 className="text-center">Assigned Tickets</h1>
             <div className="flex-lg-row">
             {
-                (myTicket.length !== 0) ? myTicket.map((res, index)=> (
+                myTicket && myTicket.map((res, index)=>(
                 
-                    res.id_ticket.etat !== null && (res.id_ticket.etat === 'assigned' || res.id_ticket.etat === 're-assigned' || res.id_ticket.etat === 'resolved') && (
+                    (res.id_ticket.etat === 'assigned' || res.id_ticket.etat === 're-assigned' || res.id_ticket.etat === 'resolved') && (
                         <>
                             <div className="card border-success m-3" key={index}>
                                 <div className="card-header bg-transparent border-success d-flex justify-content-between">
@@ -53,7 +56,7 @@ const Home = () => {
                     )
                 
                    
-                )) : <p className="text-center mt-5 text-danger" >There is no ticket yet</p>
+                ))
             }
             </div>
         </div>

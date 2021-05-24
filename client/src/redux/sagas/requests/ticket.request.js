@@ -42,7 +42,7 @@ export function requestResolvedTicket(action) {
   });
 }
 
-export function requestGetTechnicien(action) {
+export function requestGetTechnicien() {
   return axios.request({
     method: 'get',
     url: `${URL}/tech`,
