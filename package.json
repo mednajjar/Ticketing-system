@@ -1,0 +1,32 @@
+{
+  "name": "ticketing-system",
+  "version": "1.0.0",
+  "description": "gestion des incidents",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mednajjar/Ticketing-system.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "react",
+    "js",
+    "jwt",
+    "redux",
+    "redux",
+    "saga"
+  ],
+  "author": "Med-Najjar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mednajjar/Ticketing-system/issues"
+  },
+  "homepage": "https://github.com/mednajjar/Ticketing-system#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1"
+  }
+}
